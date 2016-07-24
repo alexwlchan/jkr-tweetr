@@ -1,0 +1,55 @@
+<html>
+
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <style>
+    .panel { margin-top: 10px; }
+    .panel-danger a { color: #a94442; }
+    .panel-warning a { color: #8a6d3b; }
+    .panel-success a { color: #3c763d; }
+    form { margin-bottom: 0px; }
+  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+  <div class="container">
+    <div class="page-header"><h3>Filter by keyword</h3></div>
+
+    <div class="panel panel-success">
+      <div class="panel-heading">
+        <h3 class="panel-title">Positive keywords</h3>
+      </div>
+      <div class="panel-body">
+        <p>Label a keyword as definitely <strong>about</strong> Harry Potter.</p>
+
+        <form action="" method="post" name="include">
+          {{ incl_form.hidden_tag() }}
+          <p>
+            {{ incl_form.ikeyword(size=80) }}<br>
+          </p>
+          <input class="btn btn-success" type="submit" value="Submit">
+        </form>
+      </div>
+    </div>
+
+    <div class="panel panel-danger">
+      <div class="panel-heading">
+        <h3 class="panel-title">Negative keywords</h3>
+      </div>
+      <div class="panel-body">
+        <p>Label a keyword as definitely <strong>not about</strong> Harry Potter.</p>
+
+        <form action="" method="post" name="exclude">
+          {{ excl_form.hidden_tag() }}
+          <p>
+            {{ excl_form.ekeyword(size=80) }}<br>
+          </p>
+          <input class="btn btn-danger" type="submit" value="Submit">
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

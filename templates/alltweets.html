@@ -1,0 +1,60 @@
+<html>
+
+<head>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <style>
+    .panel { margin-top: 10px; }
+    .panel-danger a { color: #a94442; }
+    .panel-warning a { color: #8a6d3b; }
+    .panel-success a { color: #3c763d; }
+  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script>
+    // http://stackoverflow.com/a/25422754/1558022
+    function post(action, t_id) {
+      var url = "/batch?action=" + action + "&id=" + t_id;
+      var params = "";
+      var xhr = new XMLHttpRequest();
+      xhr.open("POST", url, true);
+
+      //Send the proper header information along with the request
+      xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+      xhr.send(params);
+    }
+  </script>
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="page-header"><h3>{{ count }} tweets</h3>
+      <ul style="font-size: 120%">
+        <li>{{ excluded }} excluded</li>
+        <li>{{ not_posted }} yet to post about</li>
+        <li>{{ posted }} posted about</li>
+        <li>{{ count - excluded - not_posted - posted }} unprocessed</li>
+      </ul>
+    </div>
+
+    {% for t_id, tweet in tweets.items() %}
+
+      <div class="panel panel-{% if not tweet.get('is_about_hp', True) %}danger{% elif tweet.get('is_about_hp', False) and not tweet.get('is_in_summary', False) %}warning{% elif tweet.get('is_about_hp', False) %}success{% else %}default{% endif %}">
+        <div class="panel-heading">
+          <strong><a href="{{ tweet['url'] }}">{{ tweet['url'] }}</a></strong>
+          <button style="float: right; padding-right: 10px; margin-left: 5px;" onclick="script:post('greenTick', '{{ t_id }}');">✅</button>
+          <button style="float: right; padding-right: 10px;" onclick="script:post('doubleThumbsUp', '{{ t_id }}');">👍👍</button>
+          <button style="float: right; padding-right: 10px; margin-left: 5px;" onclick="script:post('thumbsUp', '{{ t_id }}');">👍</button>
+          <button style="float: right; padding-right: 10px;" onclick="script:post('thumbsDown', '{{ t_id }}');">👎</button>
+          <button style="float: right; padding-right: 10px;" onclick="script:post('doubleThumbsDown', '{{ t_id }}');">👎👎</button>
+        </div>
+        <div class="panel-body">
+          {{ tweet['text'] }}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</body>
+
+</html>
